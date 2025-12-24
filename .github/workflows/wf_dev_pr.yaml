@@ -30,7 +30,7 @@ jobs:
 
   build-job:
     runs-on: ubuntu-latest
-    needs: linting_job   # must match the job ID exactly
+    needs: linting_job
 
     steps:
       - name: Build job start
@@ -43,4 +43,4 @@ jobs:
         run: npm install
 
       - name: Build website with Parcel
-        run: npx parcel build ./src/index.html --dist-dir dist
+        run: npx parcel build "./src/index.html" --dist-dir "./dist" --public-url "./" --no-cache
