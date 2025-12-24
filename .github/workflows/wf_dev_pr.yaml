@@ -1,11 +1,46 @@
 name: wf_dev_pr
+
 on:
   pull_request:
     branches:
       - develop
+    types:
+      - opened
+      - synchronize
+
 jobs:
-  pr_job:
+  linting_job:
     runs-on: ubuntu-latest
+
     steps:
-      - name: welcome step
-        run: echo "Allah is the  Greatest"      
+      - name: Welcome step
+        run: echo "Allah is the Greatest"
+
+      - name: Clone repo on the runner
+        uses: actions/checkout@v4
+
+      - name: Install dev dependencies
+        run: npm install
+
+      - name: Lint HTML files
+        run: npx htmlhint "**/*.html"
+
+      - name: Lint CSS files
+        run: npx stylelint "**/*.css"
+
+  build-job:
+    runs-on: ubuntu-latest
+    needs: linting_job   # must match the job ID exactly
+
+    steps:
+      - name: Build job start
+        run: echo "Build job going to start"
+
+      - name: Clone repo
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build website with Parcel
+        run: npx parcel build ./src/index.html --dist-dir dist
