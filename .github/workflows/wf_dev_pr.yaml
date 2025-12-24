@@ -1,0 +1,11 @@
+name: wf_dev_pr
+on:
+  pull_request:
+    branches:
+      - develop
+jobs:
+  pr_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: welcome step
+        run: echo "Allah is the  Greatest"      
